@@ -111,6 +111,11 @@ flowchart TD
 
 ---
 
+
+# Preview 
+
+![Phase 3 Top Recommendations](diagrams/Phase%203%20Top%20Recommendation%20v1.0.png)
+
 ## Getting Started
 
 ### Setup
