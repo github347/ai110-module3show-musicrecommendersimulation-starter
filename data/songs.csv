@@ -9,3 +9,11 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
 9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
 10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+11,Dust & Highways,Red Bluff,country,nostalgic,0.55,98,0.67,0.61,0.77
+12,Broken Clocks,Hollow Theory,metal,angry,0.97,178,0.22,0.51,0.04
+13,Sunday Sermon,Gospel Way,soul,uplifting,0.71,104,0.89,0.74,0.58
+14,Rainy Season,The Quiet Folk,folk,melancholic,0.33,68,0.38,0.44,0.91
+15,Block Party Anthem,Drayze,hip-hop,energetic,0.88,96,0.80,0.91,0.09
+16,Bossa Nova Afternoon,Celeste Marín,bossa nova,romantic,0.44,112,0.76,0.67,0.83
+17,Deep Blue Wanderer,Echosea,electronic,eerie,0.69,130,0.31,0.78,0.14
+18,Gospel Train,Rev. Samuel Colt,blues,sad,0.50,76,0.28,0.45,0.88

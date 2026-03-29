@@ -17,17 +17,97 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real-work recommendations work by what "people like you" enjoy (collaborative filtering) and what the content itself "is" like (content‑based filtering).
 
-Some prompts to answer:
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+This recommender uses **content-based filtering** — it scores every song against a single user profile and returns the top K matches. There is no "people like you" component; the system only looks at the song's own attributes.
 
-You can include a simple diagram or bullet list if helpful.
+### Song Features
+
+Each `Song` in `data/songs.csv` carries ten attributes:
+
+| Attribute | Type | Role |
+| --- | --- | --- |
+| `genre` | categorical | matched against user's favorite genre |
+| `mood` | categorical | matched against user's current mood |
+| `energy` | float 0–1 | compared to user's target energy level |
+| `acousticness` | float 0–1 | matched to user's acoustic preference |
+| `tempo_bpm`, `valence`, `danceability` | float | available for future scoring extensions |
+
+### User Profile
+
+A `UserProfile` stores four fields:
+
+- `favorite_genre` — the genre the user prefers long-term
+- `favorite_mood` — the mood that fits their current context
+- `target_energy` — how high-energy they want the music right now
+- `likes_acoustic` — boolean preference for acoustic vs. produced sound
+
+### Algorithm Recipe
+
+For every song in the catalog, the recommender computes a score using a weighted sum:
+
+```text
+score = (0.35 × mood_score)
+      + (0.25 × genre_score)
+      + (0.25 × energy_score)
+      + (0.15 × acoustic_score)
+```
+
+Each sub-score is calculated as follows:
+
+| Sub-score | Formula |
+| --- | --- |
+| `mood_score` | `1.0` if `song.mood == user.favorite_mood`, else `0.0` |
+| `genre_score` | `1.0` if `song.genre == user.favorite_genre`, else `0.0` |
+| `energy_score` | `1.0 - abs(song.energy - user.target_energy)` |
+| `acoustic_score` | `song.acousticness` if `likes_acoustic` else `1.0 - song.acousticness` |
+
+After all songs are scored, the list is sorted by score descending and the top `k` results are returned with a plain-language explanation of why each song matched.
+
+**Weight rationale:** Mood carries the highest weight (0.35) because it reflects *current context* — why someone is listening right now. Genre (0.25) is a strong but more stable long-term preference. Energy (0.25) is a precise numeric signal that bridges the two categorical fields. Acousticness (0.15) acts as a tiebreaker for otherwise close matches.
+
+### Data Flow Diagram
+
+```mermaid
+flowchart TD
+    A([User Preferences\ngenre · mood · energy · likes_acoustic]) --> B
+
+    subgraph LOAD ["Load Phase"]
+        B[Read songs.csv] --> C[Parse each row\ninto Song dict]
+    end
+
+    C --> D
+
+    subgraph LOOP ["Score Loop — runs once per song"]
+        D{More songs?} -->|Yes| E[Pull next Song]
+        E --> F1[mood_score\n× 0.35]
+        E --> F2[genre_score\n× 0.25]
+        E --> F3[energy_score\n× 0.25]
+        E --> F4[acoustic_score\n× 0.15]
+        F1 & F2 & F3 & F4 --> G[Sum → final score ∈ 0–1]
+        G --> H[Append song · score · explanation\nto scored list]
+        H --> D
+    end
+
+    D -->|No more songs| I
+
+    subgraph RANK ["Rank Phase"]
+        I[Sort scored list\nby score descending] --> J[Slice top K]
+    end
+
+    J --> K([Output: Top K Recommendations\nprinted with score + explanation])
+```
+
+### Expected Biases
+
+| Bias | Why it happens | Effect |
+| --- | --- | --- |
+| **Mood lock-in** | Mood is binary (exact match or zero). No partial credit for similar moods. | Songs with a close-but-not-identical mood (e.g. `relaxed` vs. `chill`) are heavily penalized regardless of how well everything else fits. |
+| **Genre favoritism** | Genre is also binary, awarding nothing to adjacent genres. | A user who likes `pop` will never surface `indie pop` or `synthwave` unless genre scoring is extended with a similarity map. |
+| **Popularity-blind** | The catalog is small and hand-curated, not drawn from real listening data. | Genres and moods that happen to have more songs in the CSV will statistically appear more often in top-K results. |
+| **Static profile** | The `UserProfile` does not change between sessions. | The system cannot adapt if a user's mood shifts mid-listen or if they grow tired of a genre over time. |
+| **Energy-skew for acoustic users** | `acoustic_score` rewards high acousticness regardless of energy level. | A user who `likes_acoustic = True` and `target_energy = 0.9` could receive quiet, slow songs that feel tonally wrong even at a high score. |
 
 ---
 
