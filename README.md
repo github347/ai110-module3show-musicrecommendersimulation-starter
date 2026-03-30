@@ -112,9 +112,17 @@ flowchart TD
 ---
 
 
-# Preview 
+## Preview 
+
+### Phase 3 Screenshot
 
 ![Phase 3 Top Recommendations](diagrams/Phase%203%20Top%20Recommendation%20v1.0.png)
+
+### Phase 4 Screenshot
+
+![Phase 4 Step 1 A](diagrams/Phase%204%20Step%201%20A.png)
+![Phase 4 Step 1 B](diagrams/Phase%204%20Step%201%20B.png)
+![Phase 4 Step 1 C](diagrams/Phase%204%20Step%201%20C.png)
 
 ## Getting Started
 
