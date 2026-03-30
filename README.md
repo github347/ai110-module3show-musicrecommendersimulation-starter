@@ -1,5 +1,10 @@
 # 🎵 Music Recommender Simulation
 
+## Weekly TF Task 6
+
+The core concept students needed to understand is the transformation of data into predictions, distinguishing between input features, user preferences, and ranking algorithms. Students are most likely to struggle in finding some good weights for their model, each change can affect the outcome of the predictions. The AI was helpful in implementing the functions based on the requirements. However, I had to correct in to the value returned from the score_songs function so that it could have the explanation. One way I would guide a student without giving the answer is to encourage them to keep the model testing close to their preferences and what they expect while troubleshooting, it’s way harder if you don’t even know what is supposed to be.
+
+
 ## Project Summary
 
 In this project you will build and explain a small music recommender system.
