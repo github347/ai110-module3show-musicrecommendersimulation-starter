@@ -2,48 +2,31 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+**VibeKriket 1.0**  
 
 ---
 
 ## 2. Intended Use  
 
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+The recommender is to recommend song to users based on their preferences compare to a list of songs.
 
 ---
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The code is pretty simple, I compare each songs attributes to the user's attributes and give each of them a score of importance. The ones that scores higher get recommended to the user.
 
 ---
 
-## 4. Data  
+## 4. Data
 
-Describe the dataset the model uses.  
+The catalog contains 18 songs. 8 songs were added or removed from the original dataset.
 
-Prompts:  
+The genres represented are: pop, lofi, rock, ambient, jazz, synthwave, indie pop, country, metal, soul, folk, hip-hop, bossa nova, electronic, and blues. Every genre has exactly one song except lofi, which has three (*Midnight Coding*, *Library Rain*, *Focus Flow*), and pop, which has two (*Sunrise City*, *Gym Hero*).
 
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+The moods represented are: happy, chill, intense, relaxed, moody, focused, nostalgic, angry, uplifting, melancholic, energetic, romantic, eerie, and sad.
+
+Several areas of musical taste are missing from the dataset. Most genres only have one representative song, so a listener who likes jazz will only ever be compared against *Coffee Shop Stories* — there is no variety within that genre. Mainstream styles like R&B, classical, reggae, and Latin pop are absent entirely. On the mood side, common emotional states like "motivated," "anxious," or "nostalgic and upbeat at the same time" have no representation. The catalog is also too small to surface meaningful diversity in the top 5 results — for some profiles, the recommender runs out of strong matches and fills the remaining spots with whatever scores least badly.
 
 ---
 
@@ -125,6 +108,6 @@ A few sentences about your experience.
 
 Prompts:  
 
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+- What you learned about recommender systems : It was pretty intersting to make
+- Something unexpected or interesting you discovered: Conflicting attributes are not liked by algorithms. 
+- How this changed the way you think about music recommendation apps : Makes me appreciate the works put into their model to find me new sonds.
